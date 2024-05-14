@@ -21,7 +21,7 @@ More information about the games will be in associated rules.md's
 - Created project
 - Started journal.md
 
-## 5/9/24
+## 5/14/24
 
 - Created GitHub repo
 - Customized Editor

@@ -1,0 +1,38 @@
+[gd_scene load_steps=9 format=3 uid="uid://chxrtefx6ss6n"]
+
+[ext_resource type="Script" path="res://entities/card/Card.gd" id="1_2wmw6"]
+[ext_resource type="Texture2D" uid="uid://d1i7rit1n785s" path="res://assets/Cards Pack/PNG/Large/Back Blue 2.png" id="2_1vp4d"]
+[ext_resource type="Texture2D" uid="uid://bpcyobsyio14t" path="res://assets/Cards Pack/PNG/Large/Clubs 1.png" id="3_fwf7o"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eoalw"]
+size = Vector3(0.712158, 1, 0.0289307)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gs2ds"]
+cull_mode = 1
+albedo_texture = ExtResource("2_1vp4d")
+
+[sub_resource type="QuadMesh" id="QuadMesh_ax51a"]
+material = SubResource("StandardMaterial3D_gs2ds")
+size = Vector2(0.71, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5xp7p"]
+transparency = 1
+albedo_texture = ExtResource("3_fwf7o")
+
+[sub_resource type="QuadMesh" id="QuadMesh_re6oc"]
+material = SubResource("StandardMaterial3D_5xp7p")
+size = Vector2(0.71, 1)
+
+[node name="Card" type="StaticBody3D"]
+script = ExtResource("1_2wmw6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000854492, 0, 0.000183105)
+shape = SubResource("BoxShape3D_eoalw")
+
+[node name="Back" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_ax51a")
+
+[node name="Front" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.46167e-05, 0.00167239, -0.000366688)
+mesh = SubResource("QuadMesh_re6oc")

@@ -25,3 +25,4 @@ More information about the games will be in associated rules.md's
 
 - Created GitHub repo
 - Customized Editor
+- Created basic menu structure and main game scene

@@ -26,3 +26,12 @@ More information about the games will be in associated rules.md's
 - Created GitHub repo
 - Customized Editor
 - Created basic menu structure and main game scene
+
+## 5/16/24
+
+- Started Card Scene/Class
+
+## 5/18/24
+
+- Created initial implementation of Card Entity
+- Started test scene to validate Card Entity

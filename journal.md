@@ -35,3 +35,8 @@ More information about the games will be in associated rules.md's
 
 - Created initial implementation of Card Entity
 - Started test scene to validate Card Entity
+
+## 5/21/25
+
+- Started Deck model
+- Fixed Card Entity

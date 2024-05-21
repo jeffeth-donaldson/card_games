@@ -5,5 +5,9 @@
 [node name="TestScene" type="Node3D"]
 script = ExtResource("1_lphqx")
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.388101, -0.697215, 0.602718, -0.0879558, 0.679014, 0.728837, -0.91741, 0.22985, -0.32485, 6.47518, 2.89672, -6.22817)
+shadow_enabled = true
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.690882, 0.722967, 0, -0.722967, 0.690882, -2.38419e-07, 2.25587, 2.89255)

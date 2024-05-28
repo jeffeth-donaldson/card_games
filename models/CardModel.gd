@@ -5,6 +5,10 @@ enum Suits {CLUBS, DIAMONDS, HEARTS, SPADES}
 var card_num: int
 var theme: CardThemeModel
 
+func _init(card_num:int, theme:CardThemeModel):
+	self.card_num = card_num
+	self.theme = theme
+
 func get_suit():
 	match card_num / 13:
 		0:

@@ -6,6 +6,7 @@ var cards:= []
 const ROTATION_SPEED = 1
 var myDeck:Deck
 var elapsed_time = 0
+var timer = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var mytheme = CardThemeModel.new(
@@ -19,7 +20,7 @@ func _ready():
 	add_child(myCard)
 	cards.append(myCard)
 	
-	new_deck()
+	#new_deck()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func new_deck():
 	myDeck = Deck.new()
@@ -28,12 +29,19 @@ func new_deck():
 	add_child(myDeck)
 	
 func _physics_process(delta):
-	for card in cards:
-		card.rotate_y(delta*ROTATION_SPEED)
-	elapsed_time += delta
-	if elapsed_time > 0.25:
-		myDeck.draw(1)
-		elapsed_time = 0
-	if myDeck.deck.cards_left() < 1:
-		myDeck.queue_free()
-		new_deck()
+	#for card in cards:
+		#card.rotate_y(delta*ROTATION_SPEED)
+	#elapsed_time += delta
+	#if elapsed_time > 0.25:
+		#myDeck.draw(1)
+		#elapsed_time = 0
+	#if myDeck.deck.cards_left() < 1:
+		#myDeck.queue_free()
+		#new_deck()
+	timer -= delta
+	if timer <= 0:
+		var randX = randf_range(-3,3)
+		var randY = randf_range(-3,3)
+		var randZ = randf_range(-3,3)
+		timer = 3
+		cards[0].movement_component.set_destination(timer, Vector3(randX,randY,randZ))

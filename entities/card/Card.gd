@@ -6,6 +6,7 @@ class_name Card
 var card_model: CardModel
 var texture_front: Texture
 var texture_back: Texture
+var movement_component:StaticMovementComponent = StaticMovementComponent.new(self)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,4 +28,4 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	movement_component.process(delta)

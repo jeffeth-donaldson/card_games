@@ -24,6 +24,7 @@ func _update_hand_order():
 		# TODO: figure out rotational speed
 		# TODO: find out how fast the card should be moving
 		# TODO: set card acceleration
+		# TODO: Should probably create some kind of motion plan object and use composition instead
 		pass
 		
 func _physics_process(delta):

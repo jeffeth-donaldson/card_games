@@ -45,3 +45,7 @@ More information about the games will be in associated rules.md's
 
 - Finished Deck Model
 - Finished deck Entity
+
+## 6/8/24
+
+- Added slight rotations to the card as it's moving through space

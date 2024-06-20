@@ -10,9 +10,9 @@ static var default_theme = CardThemeModel.new(
 		"res://assets/Cards Pack/PNG/Large/"
 )
 # Members
-var cards:= []
+var cards:Array[CardModel]= []
 
-func _init(cards:Array):
+func _init(cards:Array[CardModel]):
 	self.cards = cards
 	
 
@@ -24,10 +24,10 @@ func shuffle():
 	# Shuffles order of cards
 	self.cards.shuffle()
 
-func draw(n=1):
+func draw(n=1) -> Array[CardModel]:
 	# Draw n cards (or the rest of the cards)
 	# returns an array of the drawn cards
-	var res:=[]
+	var res:Array[CardModel]=[]
 	if n > self.cards_left():
 		n = self.cards_left()
 	for i in range(n):
@@ -40,7 +40,7 @@ func add(other:DeckModel):
 
 # Factory methods
 static func Standard52(theme:CardThemeModel=default_theme):
-	var cards = []
+	var cards:Array[CardModel] = []
 	for i in range(53):
 		cards.append(CardModel.new(i, theme))
 	return DeckModel.new(cards)

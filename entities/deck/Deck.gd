@@ -2,20 +2,20 @@ extends Node3D
 
 class_name Deck
 var CardNode = preload("res://entities/card/Card.tscn")
-var deck: DeckModel
+var cards:Array[Card] = []
 var model_changed: bool
+
 func _init(deck:DeckModel = DeckModel.Standard52()):
-	self.deck = deck
+	for card_model:CardModel in deck.cards:
+		var newCard = CardNode.instantiate()
+		newCard.card_model = card_model
+		cards.append(newCard)
+		add_child(newCard)
 	
 func reload_children():
-	for child in get_children():
-		remove_child(child)
 	var z_offset = 0
-	for card in self.deck.cards:
-		var new_card = CardNode.instantiate()
-		new_card.card_model = card
-		new_card.translate(Vector3(0, 0, z_offset))
-		self.add_child(new_card)
+	for card in self.cards:
+		card.translate(Vector3(0, 0, z_offset))
 		z_offset -= 0.01
 	model_changed = false
 # Called when the node enters the scene tree for the first time.
@@ -28,10 +28,23 @@ func _process(delta):
 		#print("redrawing deck")
 		reload_children()
 
-func draw(n=1):
-	model_changed = true
-	return self.deck.draw(n)
+func draw(n=1)->Array[Card]:
+	# TODO: Collapse Deck Model with Deck and get rid of this line
+	# TODO: keep track of cards as array
+	# Draw n cards (or the rest of the cards)
+	# returns an array of the drawn cards
+	var res:Array[Card]=[]
+	if n > len(self.cards):
+		n = len(self.cards)
+	for i in range(n):
+		var card = self.cards.pop_back()
+		remove_child(card)
+		res.append(card)
+	return res
+	
+func cards_left()->int:
+	return len(self.cards)
 	
 func shuffle():
 	model_changed = true
-	self.deck.shuffle()
+	self.cards.shuffle()

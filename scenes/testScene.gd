@@ -10,7 +10,7 @@ var elapsed_time = 0
 var timer = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var mytheme = CardThemeModel.new(
+	var _mytheme = CardThemeModel.new(
 		"Test Theme",
 		"res://assets/Cards Pack/PNG/Large/Back Blue 1.png",
 		"res://assets/Cards Pack/PNG/Large/"
@@ -25,18 +25,20 @@ func _ready():
 
 func new_deck():
 	myHand = Hand.new()
-	myHand.translate(Vector3(0,-5,0))
+	myHand.translate(Vector3(-4,-2,-3))
 	myDeck = Deck.new()
 	myDeck.translate(Vector3(1,0,0))
+	myDeck.rotate_x(90)
 	myDeck.shuffle()
 	add_child(myDeck)
+	add_child(myHand)
 	
 func _physics_process(delta):
 	#for card in cards:
 		#card.rotate_y(delta*ROTATION_SPEED)
 	elapsed_time += delta
-	if elapsed_time > 0.25:
-		myHand.add_cards(myDeck.draw(1))
+	if elapsed_time > 1.5 && myHand.done_moving():
+		myHand.add_cards(myDeck.draw(myHand))
 		elapsed_time = 0
 	if myDeck.cards_left() < 1:
 		myHand.queue_free()

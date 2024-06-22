@@ -10,4 +10,4 @@ transform = Transform3D(-0.388101, -0.697215, 0.602718, -0.0879558, 0.679014, 0.
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.690882, 0.722967, 0, -0.722967, 0.690882, -2.38419e-07, 2.25587, 2.89255)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29, -2, 2.24579)

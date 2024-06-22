@@ -23,14 +23,12 @@ func _ready():
 	reload_children()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if model_changed:
 		#print("redrawing deck")
 		reload_children()
 
-func draw(n=1)->Array[Card]:
-	# TODO: Collapse Deck Model with Deck and get rid of this line
-	# TODO: keep track of cards as array
+func draw(new_owner:Node3D, n=1)->Array[Card]:
 	# Draw n cards (or the rest of the cards)
 	# returns an array of the drawn cards
 	var res:Array[Card]=[]
@@ -38,7 +36,7 @@ func draw(n=1)->Array[Card]:
 		n = len(self.cards)
 	for i in range(n):
 		var card = self.cards.pop_back()
-		remove_child(card)
+		card.reparent(new_owner)
 		res.append(card)
 	return res
 	

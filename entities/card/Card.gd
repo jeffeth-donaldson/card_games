@@ -17,11 +17,12 @@ func _ready():
 	var backMat = StandardMaterial3D.new()
 	var frontMat = StandardMaterial3D.new()
 	backMat.albedo_texture = texture_back
-	backMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	# Reason for Alpha Scissor: https://docs.godotengine.org/en/latest/tutorials/3d/3d_rendering_limitations.html#transparency-sorting
+	backMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
 	backMat.cull_mode = BaseMaterial3D.CULL_FRONT
 	
 	frontMat.albedo_texture = texture_front
-	frontMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	frontMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
 	
 	backMesh.set_surface_override_material(0, backMat)
 	frontMesh.set_surface_override_material(0, frontMat)

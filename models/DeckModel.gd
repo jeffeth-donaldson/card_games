@@ -12,8 +12,8 @@ static var default_theme = CardThemeModel.new(
 # Members
 var cards:Array[CardModel]= []
 
-func _init(cards:Array[CardModel]):
-	self.cards = cards
+func _init(init_cards:Array[CardModel]):
+	self.cards = init_cards
 	
 
 func cards_left():
@@ -40,7 +40,7 @@ func add(other:DeckModel):
 
 # Factory methods
 static func Standard52(theme:CardThemeModel=default_theme):
-	var cards:Array[CardModel] = []
+	var new_cards:Array[CardModel] = []
 	for i in range(53):
-		cards.append(CardModel.new(i, theme))
-	return DeckModel.new(cards)
+		new_cards.append(CardModel.new(i, theme))
+	return DeckModel.new(new_cards)

@@ -17,48 +17,57 @@ var velocity:Vector3
 var acceleration:Vector3
 var base_rotation:Vector3 = Vector3.ZERO
 var additional_rotation:Vector3 = Vector3.ZERO
+var in_motion:bool = false
 
 
 
-func _init(node:StaticBody3D):
-	self.node = node
-	self.destination_pos = node.global_position
+func _init(new_node:StaticBody3D):
+	self.node = new_node
+	self.destination_pos = node.position
 	self.destination_rotation = node.rotation
 	
-func set_destination(duration:float, position:Vector3=self.destination_pos, rotation:Vector3=self.destination_rotation):
-	self.destination_pos=position
-	self.destination_rotation=rotation
-	self.duration = duration
-	self.midpoint = duration/2
-	self.acceleration = _calculate_acceleration()*2
+func set_destination(new_duration:float, new_position:Vector3=self.destination_pos, new_rotation:Vector3=self.destination_rotation):
+	self.destination_pos=new_position
+	self.destination_rotation=new_rotation
+	self.duration = new_duration
+	self.midpoint = duration/2.0
+	self.acceleration = _calculate_acceleration()*2.0
+	self.in_motion = true
 
 func _calculate_acceleration():
 	var distance = destination_pos - node.global_position
 	return 2*(distance - velocity*duration) / (duration**2)
 
 func process(delta:float):
-	if duration > 0:
+	if in_motion:
 		duration -= delta 
 		if duration <= 0:
-			duration = 0
-			velocity = Vector3.ZERO
+			var distance = destination_pos - node.global_position
+			if distance.length_squared() > 0.05:
+				velocity = distance/0.1
+			else:
+				in_motion = false
+				duration = 0
+				velocity = Vector3.ZERO
+				acceleration = Vector3.ZERO
+				node.global_position = destination_pos
+				node.global_rotation = destination_rotation
+				return
+		elif duration <= 0.05:
 			acceleration = Vector3.ZERO
-			node.position = destination_pos
-			node.rotation = destination_rotation
-		else:
-			if duration <= midpoint:
-				midpoint = -1
-				acceleration = -acceleration
-			velocity += acceleration*delta
-			
-			# Rotate slightly based on velocity direction
-			self.additional_rotation = log(self.velocity.length_squared()+1)*-self.velocity.normalized()/5
-			node.global_rotation = self.base_rotation
-			node.global_rotation.x += self.additional_rotation.y
-			#node.global_rotation.z += self.additional_rotation.z
-			node.global_rotation.y += self.additional_rotation.x
-			
-			#print(node.global_rotation)
-			
-			node.global_position += velocity*delta
+		if duration <= midpoint:
+			midpoint = -1
+			acceleration = -acceleration
+		node.global_position += velocity*delta
+		velocity += acceleration*delta
+		
+		# Rotate slightly based on velocity direction
+		self.additional_rotation = log(self.velocity.length_squared()+1)*-self.velocity.normalized()/5
+		node.global_rotation = self.base_rotation
+		node.global_rotation.x += self.additional_rotation.y
+		#node.global_rotation.z += self.additional_rotation.z
+		node.global_rotation.y += self.additional_rotation.x
+		
+		#print(node.global_rotation)
+		
 

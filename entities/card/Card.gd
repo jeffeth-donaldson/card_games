@@ -30,3 +30,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	movement_component.process(delta)
+
+func get_width():
+	return get_child(0).shape.extents.x * 2

@@ -34,7 +34,7 @@ func _calculate_a(start:float) -> float:
 
 func _get_card_height_on_curve(x:float) -> float:
 	# Parabola Vertex Form: f(x) = a(x-h)^2 + k, where (h,k) is the vertex
-	print("x: ",x)
+	#print("x: ",x)
 	return a*((x-center)**2)+MAX_HEIGHT
 
 func add_cards(new_cards:Array[Card]):
@@ -83,4 +83,5 @@ func _update_hand_order():
 		print("------------------")
 		
 func _physics_process(_delta):
+	print(_get_mouse_position())
 	pass

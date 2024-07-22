@@ -69,7 +69,7 @@ func _update_hand_order():
 				heights.reverse()
 				i = len(cards)%2
 			var card_y = heights[i]
-			print(card_y)
+			#print(card_y)
 			card.movement_component.set_destination(
 				CARD_SPEED, 
 				to_global(Vector3(
@@ -80,8 +80,7 @@ func _update_hand_order():
 				)
 			starting_point += distance_between_cards
 			i += 1
-		print("------------------")
+		#print("------------------")
 		
 func _physics_process(_delta):
-	print(_get_mouse_position())
 	pass

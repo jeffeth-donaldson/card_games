@@ -21,11 +21,24 @@ func _get_mouse_collision():
 	var space_state := get_world_3d().direct_space_state
 	var query := PhysicsRayQueryParameters3D.create(origin, end)
 	var result := space_state.intersect_ray(query)
-	
-	
+
 	return result
 	
 
 func _physics_process(delta):
-	collision = _get_mouse_collision()
-	var mouse_position_3D:Vector3 = result.get("position",end)
+	var collision = _get_mouse_collision()
+	
+	if "position" in collision and collision["position"] != null:
+		print(collision["position"])
+	
+	if "collider" in collision and collision["collider"] != null:
+		print(collision["collider"])
+		if "hoverable_component" in collision["collider"]:
+			print("i'm hoverable!")
+		if collision["collider"] == last_hoverable:
+			last_hoverable.call_on_leave(collision)
+			last_hoverable = collision["collider"]
+	elif last_hoverable != null:
+		last_hoverable.call_on_leave(collision)
+		last_hoverable = null
+	

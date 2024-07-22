@@ -7,6 +7,7 @@ var card_model: CardModel
 var texture_front: Texture
 var texture_back: Texture
 var movement_component:StaticMovementComponent = StaticMovementComponent.new(self)
+var hoverable_component:HoverableComponent = HoverableComponent.new(func(): pass, func(): pass)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -33,3 +34,9 @@ func _process(delta):
 
 func get_width():
 	return get_child(0).shape.extents.x * 2
+	
+func set_on_hover(new_on_hover:Callable):
+	hoverable_component.on_hover = new_on_hover
+	
+func set_on_leave(new_on_leave:Callable):
+	hoverable_component.on_leave = new_on_leave

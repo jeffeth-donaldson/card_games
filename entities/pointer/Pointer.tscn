@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://mbvrpp18a13u"]
+
+[ext_resource type="Script" path="res://entities/pointer/Pointer.gd" id="1_j78wv"]
+
+[node name="Pointer" type="Node3D"]
+script = ExtResource("1_j78wv")

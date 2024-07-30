@@ -9,9 +9,12 @@ var width:float
 var center:float
 var a:float # This is used for the parabola representing the curve of cards
 var sort_function:Callable
+var focused_card:int = -1 # Used for hovering a card, -1 is no card is focused
 const MAX_CARD_DISTANCE=0.8
 const CARD_SPEED=0.5
 const MAX_HEIGHT=0.25
+const FOCUSED_NEIGHBOR_SHUFFLE=0.25
+const FOCUSED_MOVEMENT=1
 
 static func default_sort(a:Card, b:Card):
 	return a.card_model.card_num < b.card_model.card_num
@@ -41,11 +44,20 @@ func add_cards(new_cards:Array[Card]):
 	for card in new_cards:
 		cards.append(card)
 		card.reparent(self, true)
+		card.hoverable_component.on_leave = func(point:Vector3): _unfocus_card()
 	_update_hand_order()
 	
 func done_moving() -> bool:
 	return cards.all(func(n:Card): return not n.movement_component.in_motion)
 	
+func _set_focused_card(card: int):
+	focused_card = card
+	print("focused card:", card)
+	_update_hand_order()
+func _unfocus_card():
+	print("unfocused")
+	focused_card = -1
+	_update_hand_order()
 func _update_hand_order():
 	if len(cards) > 0:
 		cards.sort_custom(sort_function)
@@ -63,23 +75,36 @@ func _update_hand_order():
 					)
 			else:
 				heights.append(0)
-		var i = 0
+		var i = 0 # counter for height
+		var j = 0 # counter for card focus
 		for card in cards:
+			# Need to reset in case order has changed.
+			card.hoverable_component.on_hover = func(point:Vector3): _set_focused_card(j)
 			if i >= half_the_cards:
 				heights.reverse()
 				i = len(cards)%2
+			var card_x = starting_point
 			var card_y = heights[i]
 			#print(card_y)
+			var card_z = starting_point*(0.1/len(cards))
+			if focused_card > -1:
+				if j == focused_card:
+					card_z += FOCUSED_MOVEMENT
+				elif j == focused_card -1:
+					card_x -= FOCUSED_NEIGHBOR_SHUFFLE
+				elif j == focused_card + 1:
+					card_x += FOCUSED_NEIGHBOR_SHUFFLE
 			card.movement_component.set_destination(
 				CARD_SPEED, 
 				to_global(Vector3(
-					starting_point,
+					card_x,
 					card_y,
-					starting_point*(0.1/len(cards))
+					card_z
 					))
 				)
 			starting_point += distance_between_cards
 			i += 1
+			j += 1
 		#print("------------------")
 		
 func _physics_process(_delta):

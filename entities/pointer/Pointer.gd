@@ -6,7 +6,7 @@ class_name Pointer
 # If so, it will call the on_hover function of the Node if it has a hoverable component
 # On the next frame, if the mouse is not over the previous hoverable, 
 # it will call the on_leave function.
-var last_hoverable:HoverableComponent
+var last_hoverable:Node3D
 
 func _get_mouse_collision():
 	var viewport := get_viewport()
@@ -28,17 +28,20 @@ func _get_mouse_collision():
 func _physics_process(delta):
 	var collision = _get_mouse_collision()
 	
-	if "position" in collision and collision["position"] != null:
-		print(collision["position"])
+	#if "position" in collision and collision["position"] != null:
+		#print(collision["position"])
 	
 	if "collider" in collision and collision["collider"] != null:
-		print(collision["collider"])
-		if "hoverable_component" in collision["collider"]:
-			print("i'm hoverable!")
 		if collision["collider"] == last_hoverable:
-			last_hoverable.call_on_leave(collision)
+			last_hoverable.hoverable_component.call_on_leave(collision)
 			last_hoverable = collision["collider"]
+		#print(collision["collider"])
+		if "hoverable_component" in collision["collider"]:
+			collision["collider"].hoverable_component.call_on_hover(collision["position"])
+			last_hoverable = collision["collider"]
+			#print("i'm hoverable!")
 	elif last_hoverable != null:
-		last_hoverable.call_on_leave(collision)
+		print("no longer hovering")
+		last_hoverable.hoverable_component.call_on_leave(collision)
 		last_hoverable = null
 	

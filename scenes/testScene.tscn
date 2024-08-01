@@ -14,3 +14,26 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29, -2, 2.24579)
 
 [node name="Pointer" parent="." instance=ExtResource("2_wt3sr")]
+
+[node name="SpinBox" type="SpinBox" parent="."]
+offset_left = 1031.0
+offset_top = 30.0
+offset_right = 1114.06
+offset_bottom = 61.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 905.0
+offset_top = 34.0
+offset_right = 1015.0
+offset_bottom = 57.0
+text = "Cards to Draw"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 1005.0
+offset_top = 77.0
+offset_right = 1103.0
+offset_bottom = 108.0
+text = "Draw Cards"
+
+[connection signal="value_changed" from="SpinBox" to="." method="_on_card_draw_num_spin_box_value_changed"]
+[connection signal="pressed" from="Button" to="." method="_on_draw_card_button_pressed"]

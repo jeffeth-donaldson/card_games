@@ -14,7 +14,7 @@ const MAX_CARD_DISTANCE=0.8
 const CARD_SPEED=0.5
 const MAX_HEIGHT=0.25
 const FOCUSED_NEIGHBOR_SHUFFLE=0.25
-const FOCUSED_MOVEMENT=1
+const FOCUSED_MOVEMENT=0.33
 
 static func default_sort(a:Card, b:Card):
 	return a.card_model.card_num < b.card_model.card_num
@@ -51,9 +51,10 @@ func done_moving() -> bool:
 	return cards.all(func(n:Card): return not n.movement_component.in_motion)
 	
 func _set_focused_card(card: int):
-	focused_card = card
-	print("focused card:", card)
-	_update_hand_order()
+	if focused_card != card and done_moving():
+		focused_card = card
+		print("focused card:", card)
+		_update_hand_order()
 func _unfocus_card():
 	print("unfocused")
 	focused_card = -1

@@ -32,8 +32,8 @@ func _physics_process(delta):
 		#print(collision["position"])
 	
 	if "collider" in collision and collision["collider"] != null:
-		if collision["collider"] == last_hoverable:
-			last_hoverable.hoverable_component.call_on_leave(collision)
+		if last_hoverable != null and collision["collider"] != last_hoverable:
+			last_hoverable.hoverable_component.call_on_leave(collision["position"])
 			last_hoverable = collision["collider"]
 		#print(collision["collider"])
 		if "hoverable_component" in collision["collider"]:
@@ -42,6 +42,6 @@ func _physics_process(delta):
 			#print("i'm hoverable!")
 	elif last_hoverable != null:
 		print("no longer hovering")
-		last_hoverable.hoverable_component.call_on_leave(collision)
+		last_hoverable.hoverable_component.call_on_leave(collision.get("position", Vector3.ZERO))
 		last_hoverable = null
 	

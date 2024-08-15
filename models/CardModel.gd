@@ -23,7 +23,7 @@ func get_suit():
 			return Suits.SPADES
 		4:
 			return null
-			
+
 func get_value():
 	# Is Joker
 	if card_num > 51:

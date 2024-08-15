@@ -5,9 +5,10 @@ class_name Hand
 const MAX_CARD_DISTANCE=0.8
 const MIN_CARD_SPEED=0.5
 const MAX_HEIGHT=0.25
-const FOCUSED_NEIGHBOR_SHUFFLE=0.50
-const FOCUSED_MOVEMENT=0.33
-const DRAW_CARD_COOLDOWN_MAX=0.2 # seconds
+const FOCUSED_NEIGHBOR_SHUFFLE=0.20
+const FOCUSED_VERTICAL_MOVEMENT=0.33
+const FOCUSED_SIDE_MOVEMENT=0.1
+const DRAW_CARD_COOLDOWN_MAX=0.1 # seconds
 
 var cards:Array[Card] = []
 var cards_to_add:Array[Card] = []
@@ -16,10 +17,12 @@ var model_changed = false
 var width:float
 var center:float
 var a:float # This is used for the parabola representing the curve of cards
-var sort_function:Callable
 var focused_card:int = -1 # Used for hovering a card, -1 is no card is focused
 var draw_card_cooldown:float = 0
 var card_speed:float = MIN_CARD_SPEED
+
+@export var sort_function:Callable
+@export var onClick: Callable
 
 static func default_sort(a:Card, b:Card):
 	return a.card_model.card_num < b.card_model.card_num
@@ -56,10 +59,10 @@ func process_new_card(card:Card):
 	_update_hand_order()
 	if len(cards_to_add) < 1:
 		card_speed = MIN_CARD_SPEED
-	
+
 func done_moving() -> bool:
 	return cards.all(func(n:Card): return not n.movement_component.in_motion)
-	
+
 func _set_focused_card(card: int):
 	if focused_card != card and len(cards_to_add) < 1:
 		focused_card = card
@@ -100,13 +103,15 @@ func _update_hand_order():
 			var card_z = starting_point*(0.1/len(cards))
 			if focused_card > -1:
 				if j == focused_card:
-					card_z += FOCUSED_MOVEMENT
+					card_z += FOCUSED_VERTICAL_MOVEMENT
+					# TODO: make it so that the focused card moves towards the center to avoid paralax
+					card_x += (half_the_cards - j)*FOCUSED_SIDE_MOVEMENT/len(cards)
 				elif j < focused_card:
 					card_x -= FOCUSED_NEIGHBOR_SHUFFLE
 				elif j > focused_card:
 					card_x += FOCUSED_NEIGHBOR_SHUFFLE
 			card.movement_component.set_destination(
-				card_speed, 
+				card_speed,
 				to_global(Vector3(
 					card_x,
 					card_y,
@@ -117,11 +122,30 @@ func _update_hand_order():
 			i += 1
 			j += 1
 		#print("------------------")
-		
+
 func _physics_process(delta):
 	if draw_card_cooldown >= 0:
 		draw_card_cooldown -= delta
-		
-	if len(cards_to_add) > 0 and done_moving():
+
+	#if len(cards_to_add) > 0 and done_moving():
+	if len(cards_to_add) > 0 and draw_card_cooldown <= 0:
 		process_new_card(cards_to_add.pop_front())
 		draw_card_cooldown = DRAW_CARD_COOLDOWN_MAX
+
+	if Input.is_action_just_released("ui_select") and focused_card != -1 and len(cards_to_add) < 1:
+		print("I clicked on card number:",focused_card)
+		print(onClick.get_method())
+		if not onClick.get_method().is_empty():
+			onClick.call(cards[focused_card])
+
+	if Input.is_action_just_released("ui_left") and len(cards_to_add) < 1:
+		if focused_card < 1:
+			_set_focused_card(len(cards) -1)
+		else:
+			_set_focused_card(focused_card - 1)
+
+	if Input.is_action_just_released("ui_right") and len(cards_to_add) < 1:
+		if focused_card > len(cards)-2:
+			_set_focused_card(0)
+		else:
+			_set_focused_card(focused_card + 1)

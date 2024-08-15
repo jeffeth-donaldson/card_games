@@ -10,10 +10,10 @@ static func default_sort(a:CardModel, b:CardModel):
 
 func _init(sortFunction:Callable=default_sort):
 	self.sortFunction = sortFunction
-	
+
 func sort():
 	cards.sort_custom(sortFunction)
-	
+
 func add_card(card:CardModel):
 	cards.append(card)
 	self.sort()

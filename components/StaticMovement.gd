@@ -7,6 +7,8 @@ enum MOVEMENT_KIND {
 	BALL
 }
 
+const MAX_ADDITIONAL_ROTATION = 0.6
+
 var node:StaticBody3D
 var movement_kind:MOVEMENT_KIND
 var destination_pos:Vector3
@@ -25,7 +27,7 @@ func _init(new_node:StaticBody3D):
 	self.node = new_node
 	self.destination_pos = node.position
 	self.destination_rotation = node.rotation
-	
+
 func set_destination(new_duration:float, new_position:Vector3=self.destination_pos, new_rotation:Vector3=self.destination_rotation):
 	self.destination_pos=new_position
 	self.destination_rotation=new_rotation
@@ -40,7 +42,7 @@ func _calculate_acceleration():
 
 func process(delta:float):
 	if in_motion:
-		duration -= delta 
+		duration -= delta
 		if duration <= 0:
 			var distance = destination_pos - node.global_position
 			if distance.length_squared() > 0.05:
@@ -60,14 +62,12 @@ func process(delta:float):
 			acceleration = -acceleration
 		node.global_position += velocity*delta
 		velocity += acceleration*delta
-		
+
 		# Rotate slightly based on velocity direction
 		self.additional_rotation = log(self.velocity.length_squared()+1)*-self.velocity.normalized()/5
 		node.global_rotation = self.base_rotation
-		node.global_rotation.x += self.additional_rotation.y
+		node.global_rotation.x += clamp(self.additional_rotation.y, -MAX_ADDITIONAL_ROTATION, MAX_ADDITIONAL_ROTATION)
 		#node.global_rotation.z += self.additional_rotation.z
-		node.global_rotation.y += self.additional_rotation.x
-		
-		#print(node.global_rotation)
-		
+		node.global_rotation.y += clamp(self.additional_rotation.x, -MAX_ADDITIONAL_ROTATION, MAX_ADDITIONAL_ROTATION)
 
+		#print(node.global_rotation)

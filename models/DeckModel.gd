@@ -14,7 +14,7 @@ var cards:Array[CardModel]= []
 
 func _init(init_cards:Array[CardModel]):
 	self.cards = init_cards
-	
+
 
 func cards_left():
 	# Returns number of cards left in deck

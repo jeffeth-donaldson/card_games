@@ -2,9 +2,9 @@
 
 ## Intro
 
-This project is a game where I'll create various card games I like to play with 
+This project is a game where I'll create various card games I like to play with
 my family. The goal is to have a multiplayer enabled game that will allow me to
-play card games with my family while I'm not living with them. 
+play card games with my family while I'm not living with them.
 
 Here are the games I'd like to implement, in the rough order I'd like to
 implement them:

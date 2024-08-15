@@ -7,7 +7,7 @@ var card_model: CardModel
 var texture_front: Texture
 var texture_back: Texture
 var movement_component:StaticMovementComponent = StaticMovementComponent.new(self)
-var hoverable_component:HoverableComponent = HoverableComponent.new(func(): pass, func(): pass)
+var hoverable_component:HoverableComponent = HoverableComponent.new(func(param): pass, func(param): pass)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,10 +21,10 @@ func _ready():
 	# Reason for Alpha Scissor: https://docs.godotengine.org/en/latest/tutorials/3d/3d_rendering_limitations.html#transparency-sorting
 	backMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
 	backMat.cull_mode = BaseMaterial3D.CULL_FRONT
-	
+
 	frontMat.albedo_texture = texture_front
 	frontMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
-	
+
 	backMesh.set_surface_override_material(0, backMat)
 	frontMesh.set_surface_override_material(0, frontMat)
 
@@ -34,9 +34,9 @@ func _process(delta):
 
 func get_width():
 	return get_child(0).shape.extents.x * 2
-	
+
 func set_on_hover(new_on_hover:Callable):
 	hoverable_component.on_hover = new_on_hover
-	
+
 func set_on_leave(new_on_leave:Callable):
 	hoverable_component.on_leave = new_on_leave

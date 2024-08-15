@@ -21,19 +21,19 @@ func _ready():
 	#myCard.card_model = myCardModel
 	#add_child(myCard)
 	#cards.append(myCard)
-	
+
 	new_deck()
 
 func new_deck():
 	myHand = Hand.new()
-	myHand.translate(Vector3(-4,-2,-3))
+	myHand.translate(Vector3(-4,-3,-3))
 	myDeck = Deck.new()
 	myDeck.translate(Vector3(1,0,0))
 	myDeck.rotate_x(90)
 	myDeck.shuffle()
 	add_child(myDeck)
 	add_child(myHand)
-	
+
 func _physics_process(delta):
 	#for card in cards:
 		#card.rotate_y(delta*ROTATION_SPEED)

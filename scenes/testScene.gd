@@ -27,8 +27,8 @@ func _ready():
 func new_deck():
 	myHand = Hand.new()
 	myHand.translate(Vector3(-4,-3,-3))
-	myDeck = Deck.new()
-	myDeck.translate(Vector3(1,0,0))
+	myDeck = Deck.new(DeckModel.HandAndFoot())
+	myDeck.translate(Vector3(-4,-3,-3))
 	myDeck.rotate_x(90)
 	myDeck.shuffle()
 	add_child(myDeck)

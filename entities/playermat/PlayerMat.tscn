@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dptmbcu76g6su"]
+
+[ext_resource type="Script" path="res://entities/playermat/player_mat.gd" id="1_baqx2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_10lou"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_color = Color(0.880688, 0.0993361, 0.543526, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vi1k4"]
+material = SubResource("StandardMaterial3D_10lou")
+
+[node name="PlayerMat" type="Node3D"]
+script = ExtResource("1_baqx2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_vi1k4")

@@ -41,6 +41,18 @@ func add(other:DeckModel):
 # Factory methods
 static func Standard52(theme:CardThemeModel=default_theme):
 	var new_cards:Array[CardModel] = []
-	for i in range(53):
+	for i in range(54):
 		new_cards.append(CardModel.new(i, theme))
+	return DeckModel.new(new_cards)
+
+static func Empty():
+	return DeckModel.new([])
+
+static func HandAndFoot(themes:Array[CardThemeModel]=[default_theme]):
+	# Creates 4 standard decks
+	# Can pass as many themes as you want (up to 4) to simulate multiple themes of deck
+	var new_cards:Array[CardModel] = []
+	for j in range(4):
+		for i in range(54):
+			new_cards.append(CardModel.new(i, themes[j%len(themes)]))
 	return DeckModel.new(new_cards)

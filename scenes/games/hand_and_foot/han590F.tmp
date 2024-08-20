@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://ck0df0vn4x8x0"]
+[gd_scene load_steps=6 format=3 uid="uid://ck0df0vn4x8x0"]
 
 [ext_resource type="Script" path="res://scenes/games/hand_and_foot/hand_and_foot.gd" id="1_4xaf2"]
 [ext_resource type="PackedScene" uid="uid://mbvrpp18a13u" path="res://entities/pointer/Pointer.tscn" id="2_wc3sn"]
 [ext_resource type="PackedScene" uid="uid://dptmbcu76g6su" path="res://entities/playermat/PlayerMat.tscn" id="3_stjrt"]
-[ext_resource type="PackedScene" uid="uid://bj0640vv3stcu" path="res://entities/deck/DeckMat.tscn" id="4_yc3mo"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_i50f0"]
 
@@ -26,23 +25,5 @@ transform = Transform3D(6.8, 0, 0, 0, 1, 0, 0, 0, 3.8, 0, 0, 0)
 mesh = SubResource("PlaneMesh_i50f0")
 
 [node name="PlayerMat" parent="." instance=ExtResource("3_stjrt")]
-transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 1, -0.00228852, 0.0432429, 2.6106)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.275164, 0, 2.45408)
 my_material = SubResource("StandardMaterial3D_pqm6b")
-
-[node name="PlayerMat2" parent="." instance=ExtResource("3_stjrt")]
-transform = Transform3D(-1.5299e-07, 0, 1, 0, 1, 0, -3.5, 0, -4.37114e-08, 6.05985, 0.043, 0)
-my_material = SubResource("StandardMaterial3D_pqm6b")
-
-[node name="PlayerMat3" parent="." instance=ExtResource("3_stjrt")]
-transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 1, -0.00228852, 0.0432429, -3.45902)
-my_material = SubResource("StandardMaterial3D_pqm6b")
-
-[node name="PlayerMat4" parent="." instance=ExtResource("3_stjrt")]
-transform = Transform3D(-1.5299e-07, 0, 1, 0, 1, 0, -3.5, 0, -4.37114e-08, -6.10851, 0.043, 0)
-my_material = SubResource("StandardMaterial3D_pqm6b")
-
-[node name="DrawDeckMat" parent="." instance=ExtResource("4_yc3mo")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.595, 0, 0)
-
-[node name="DiscardDeckMat" parent="." instance=ExtResource("4_yc3mo")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.595, 0, 0)

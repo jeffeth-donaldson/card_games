@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bj0640vv3stcu"]
+
+[ext_resource type="Script" path="res://entities/deck/deck_mat.gd" id="1_ym66f"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eawmu"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_color = Color(0, 0.690196, 0.352941, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3vjx2"]
+material = SubResource("StandardMaterial3D_eawmu")
+size = Vector2(0.71, 1)
+
+[node name="DeckMat" type="Node3D"]
+script = ExtResource("1_ym66f")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_3vjx2")

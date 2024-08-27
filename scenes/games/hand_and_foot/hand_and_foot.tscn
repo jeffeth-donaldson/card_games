@@ -26,19 +26,19 @@ transform = Transform3D(6.8, 0, 0, 0, 1, 0, 0, 0, 3.8, 0, 0, 0)
 mesh = SubResource("PlaneMesh_i50f0")
 
 [node name="PlayerMat" parent="." instance=ExtResource("3_stjrt")]
-transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 1, -0.00228852, 0.0432429, 2.6106)
+transform = Transform3D(4, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.00228852, 0.0432429, 2.86856)
 my_material = SubResource("StandardMaterial3D_pqm6b")
 
 [node name="PlayerMat2" parent="." instance=ExtResource("3_stjrt")]
-transform = Transform3D(-1.5299e-07, 0, 1, 0, 1, 0, -3.5, 0, -4.37114e-08, 6.05985, 0.043, 0)
+transform = Transform3D(-1.5299e-07, -1, -4.37114e-08, 0, -4.37114e-08, 1, -3.5, 4.37114e-08, 1.91069e-15, 6.05985, 0.043, 0)
 my_material = SubResource("StandardMaterial3D_pqm6b")
 
 [node name="PlayerMat3" parent="." instance=ExtResource("3_stjrt")]
-transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 1, -0.00228852, 0.0432429, -3.45902)
+transform = Transform3D(-4, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 3.49691e-07, 1, 4.37114e-08, -0.00228852, 0.0432429, -3.45902)
 my_material = SubResource("StandardMaterial3D_pqm6b")
 
 [node name="PlayerMat4" parent="." instance=ExtResource("3_stjrt")]
-transform = Transform3D(-1.5299e-07, 0, 1, 0, 1, 0, -3.5, 0, -4.37114e-08, -6.10851, 0.043, 0)
+transform = Transform3D(-1.5299e-07, 1, 4.37114e-08, 0, -4.37114e-08, 1, 3.5, 4.37114e-08, 1.91069e-15, -6.10851, 0.043, 0)
 my_material = SubResource("StandardMaterial3D_pqm6b")
 
 [node name="DrawDeckMat" parent="." instance=ExtResource("4_yc3mo")]
@@ -46,3 +46,6 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.595
 
 [node name="DiscardDeckMat" parent="." instance=ExtResource("4_yc3mo")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.595, 0, 0)
+
+[node name="FootMat1" parent="." instance=ExtResource("4_yc3mo")]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 3.93622, 0, 0.934061)

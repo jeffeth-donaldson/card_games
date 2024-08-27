@@ -3,7 +3,7 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#visible = false
+	visible = false
 	return
 
 @export var my_material: Material:
@@ -11,3 +11,6 @@ func _ready() -> void:
 		$MeshInstance3D.mesh.material = value
 	get():
 		return $MeshInstance3D.mesh.material
+
+func get_width() -> float:
+	return $MeshInstance3D.mesh.size.x

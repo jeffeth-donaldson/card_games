@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://curncf0uka6y8"]
+
+[ext_resource type="Script" path="res://scenes/testScene.gd" id="1_lphqx"]
+[ext_resource type="PackedScene" uid="uid://mbvrpp18a13u" path="res://entities/pointer/Pointer.tscn" id="2_wt3sr"]
+
+[node name="TestScene" type="Node3D"]
+script = ExtResource("1_lphqx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.388101, -0.697215, 0.602718, -0.0879558, 0.679014, 0.728837, -0.91741, 0.22985, -0.32485, 6.47518, 2.89672, -6.22817)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29, -2, 2.24579)
+
+[node name="Pointer" parent="." instance=ExtResource("2_wt3sr")]
+
+[node name="SpinBox" type="SpinBox" parent="."]
+offset_left = 1031.0
+offset_top = 30.0
+offset_right = 1114.06
+offset_bottom = 61.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 905.0
+offset_top = 34.0
+offset_right = 1015.0
+offset_bottom = 57.0
+text = "Cards to Draw"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 1005.0
+offset_top = 77.0
+offset_right = 1103.0
+offset_bottom = 108.0
+text = "Draw Cards"
+
+[connection signal="value_changed" from="SpinBox" to="." method="_on_card_draw_num_spin_box_value_changed"]
+[connection signal="pressed" from="Button" to="." method="_on_draw_card_button_pressed"]

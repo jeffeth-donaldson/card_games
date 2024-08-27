@@ -32,16 +32,19 @@ func _ready() -> void:
 		# Only player 0 is this player
 		players.append(HFPlayer.new(i % 2, i==0, i==0))
 		# TODO: Use hand and foot sorting algorithm
-		players[i].hand = Hand.new()
+		players[i].hand = Hand.new(10 if i==0 else 5, hand_and_foot_sort, i==0)
 		players[i].foot = Deck.new(DeckModel.Empty())
 		add_child(players[i].hand)
 		add_child(players[i].foot)
 		# Move hand into place
 		players[i].hand.global_position = mats[i].global_position
+		#players[i].hand.position.x = mats[i].position.x - (players[i].hand.width/2)
 		players[i].hand.global_rotation = mats[i].global_rotation
 		# Move foot into place
 		players[i].hand.add_child(players[i].foot)
-		players[i].foot.position=Vector3(-players[i].hand.MAX_CARD_DISTANCE -0.2, 0,0)
+		#players[i].foot.position=Vector3(-players[i].hand.MAX_CARD_DISTANCE -0.2, 0,0)
+		players[i].foot.global_position = $FootMat1.global_position
+		players[i].foot.global_rotation = $FootMat1.global_rotation
 
 	deck = Deck.new(DeckModel.HandAndFoot())
 	add_child(deck)
@@ -56,6 +59,15 @@ func _ready() -> void:
 	discard.global_rotation = $DiscardDeckMat.global_rotation
 
 	discard.discard = true
+
+	# Deal out cards
+	for i in range(13*8):
+		# Deal out to each player's hand, and then the foot
+		var player = i%4
+		if i%8 > 3:
+			players[player].hand.add_cards(deck.draw())
+		else:
+			players[player].foot.add_cards(deck.draw())
 	#myHand = Hand.new()
 	#myHand.translate(Vector3(-4,-3,-3))
 	#myDeck = Deck.new()

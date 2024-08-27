@@ -20,6 +20,7 @@ var a:float # This is used for the parabola representing the curve of cards
 var focused_card:int = -1 # Used for hovering a card, -1 is no card is focused
 var draw_card_cooldown:float = 0
 var card_speed:float = MIN_CARD_SPEED
+var is_player:bool
 
 @export var sort_function:Callable
 @export var onClick: Callable
@@ -27,10 +28,11 @@ var card_speed:float = MIN_CARD_SPEED
 static func default_sort(a:Card, b:Card):
 	return a.card_model.card_num < b.card_model.card_num
 
-func _init(new_width=10, new_sort_function:Callable=default_sort):
+func _init(new_width=10, new_sort_function:Callable=default_sort, new_is_player=false):
 	self.sort_function = new_sort_function
 	self.width = new_width
-	self.center = width/2.0
+	self.center = 0
+	self.is_player=new_is_player
 
 # Functions for Determining Card Curve
 func _calculate_a(start:float) -> float:
@@ -54,8 +56,10 @@ func add_cards(new_cards:Array[Card]):
 
 func process_new_card(card:Card):
 	cards.append(card)
-	card.reparent(self, true)
-	card.hoverable_component.on_leave = func(point:Vector3): _unfocus_card()
+	#card.reparent(self, true)
+	add_child(card)
+	if is_player:
+		card.hoverable_component.on_leave = func(point:Vector3): _unfocus_card()
 	_update_hand_order()
 	if len(cards_to_add) < 1:
 		card_speed = MIN_CARD_SPEED
@@ -76,7 +80,7 @@ func _update_hand_order():
 	if len(cards) > 0:
 		cards.sort_custom(sort_function)
 		var distance_between_cards = min(MAX_CARD_DISTANCE, width/len(cards))
-		var starting_point = 0
+		var starting_point = center-width/2.0
 		if distance_between_cards == MAX_CARD_DISTANCE:
 			starting_point = center - (MAX_CARD_DISTANCE*len(cards)/2.0)
 		a = _calculate_a(starting_point+cards[0].get_width())
@@ -93,13 +97,14 @@ func _update_hand_order():
 		var j = 0 # counter for card focus
 		for card in cards:
 			# Need to reset in case order has changed.
-			card.hoverable_component.on_hover = func(point:Vector3): _set_focused_card(j)
-			if i >= half_the_cards:
-				heights.reverse()
-				i = len(cards)%2
 			var card_x = starting_point
-			var card_y = heights[i]
-			#print(card_y)
+			var card_y = 0
+			if is_player:
+				card.hoverable_component.on_hover = func(point:Vector3): _set_focused_card(j)
+				if i >= half_the_cards:
+					heights.reverse()
+					i = len(cards)%2
+				card_y = heights[i]
 			var card_z = starting_point*(0.1/len(cards))
 			if focused_card > -1:
 				if j == focused_card:
@@ -110,13 +115,17 @@ func _update_hand_order():
 					card_x -= FOCUSED_NEIGHBOR_SHUFFLE
 				elif j > focused_card:
 					card_x += FOCUSED_NEIGHBOR_SHUFFLE
+			var my_rotation = rotation
+			if !is_player:
+				my_rotation.x = PI/2
 			card.movement_component.set_destination(
 				card_speed,
 				to_global(Vector3(
 					card_x,
 					card_y,
 					card_z
-					))
+					)),
+				my_rotation
 				)
 			starting_point += distance_between_cards
 			i += 1

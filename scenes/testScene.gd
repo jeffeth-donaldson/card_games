@@ -55,7 +55,7 @@ func _physics_process(delta):
 
 
 func _on_draw_card_button_pressed():
-	myHand.add_cards(myDeck.draw(myHand, cards_to_draw))
+	myHand.add_cards(myDeck.draw(cards_to_draw))
 
 
 func _on_card_draw_num_spin_box_value_changed(value):

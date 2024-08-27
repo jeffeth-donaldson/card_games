@@ -17,7 +17,8 @@ var duration:float=0.0
 var midpoint:float=0.0
 var velocity:Vector3
 var acceleration:Vector3
-var base_rotation:Vector3 = Vector3.ZERO
+var base_rotation:Vector3
+var rotational_velocity:Vector3
 var additional_rotation:Vector3 = Vector3.ZERO
 var in_motion:bool = false
 
@@ -27,10 +28,14 @@ func _init(new_node:StaticBody3D):
 	self.node = new_node
 	self.destination_pos = node.position
 	self.destination_rotation = node.rotation
+	self.base_rotation = node.global_rotation
+	print()
 
 func set_destination(new_duration:float, new_position:Vector3=self.destination_pos, new_rotation:Vector3=self.destination_rotation):
 	self.destination_pos=new_position
 	self.destination_rotation=new_rotation
+	#self.base_rotation = node.global_rotation
+	self.rotational_velocity=(new_rotation-base_rotation)/new_duration
 	self.duration = new_duration
 	self.midpoint = duration/2.0
 	self.acceleration = _calculate_acceleration()*2.0
@@ -54,6 +59,7 @@ func process(delta:float):
 				acceleration = Vector3.ZERO
 				node.global_position = destination_pos
 				node.global_rotation = destination_rotation
+				base_rotation = destination_rotation
 				return
 		elif duration <= 0.05:
 			acceleration = Vector3.ZERO
@@ -61,6 +67,7 @@ func process(delta:float):
 			midpoint = -1
 			acceleration = -acceleration
 		node.global_position += velocity*delta
+		base_rotation += rotational_velocity*delta
 		velocity += acceleration*delta
 
 		# Rotate slightly based on velocity direction

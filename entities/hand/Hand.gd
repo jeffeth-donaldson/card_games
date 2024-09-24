@@ -51,13 +51,14 @@ func _get_card_height_on_curve(x:float) -> float:
 	return a*((x-center)**2)+MAX_HEIGHT
 
 func add_cards(new_cards:Array[Card]):
+	for card in new_cards:
+		card.reparent(self, true)
 	cards_to_add.append_array(new_cards)
 	card_speed = MIN_CARD_SPEED / len(cards_to_add)
 
 func process_new_card(card:Card):
 	cards.append(card)
-	#card.reparent(self, true)
-	add_child(card)
+	#add_child(card)
 	if is_player:
 		card.hoverable_component.on_leave = func(point:Vector3): _unfocus_card()
 	_update_hand_order()

@@ -122,6 +122,7 @@ func _process(delta: float) -> void:
 				current_player = 0
 			if players[current_player].player:
 				players[current_player].hand.onClick = func(card:Card):
+					# POC of clicking on a card. TODO: create staging area for cards
 					print(HandAndFootUtil.get_card_score(card.card_model))
 				# TODO: handle local player
 				pass

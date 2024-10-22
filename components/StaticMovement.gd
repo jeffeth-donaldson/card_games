@@ -4,7 +4,8 @@ extends Node
 class_name StaticMovementComponent
 enum MOVEMENT_KIND {
 	UFO,
-	BALL
+	BALL,
+	SIMPLE
 }
 
 const MAX_ADDITIONAL_ROTATION = 0.6
@@ -24,7 +25,7 @@ var in_motion:bool = false
 
 
 
-func _init(new_node:StaticBody3D):
+func _init(new_node:StaticBody3D, new_movement_kind:MOVEMENT_KIND=MOVEMENT_KIND.UFO):
 	self.node = new_node
 	self.destination_pos = node.position
 	self.destination_rotation = node.rotation
@@ -70,11 +71,12 @@ func process(delta:float):
 		base_rotation += rotational_velocity*delta
 		velocity += acceleration*delta
 
-		# Rotate slightly based on velocity direction
-		self.additional_rotation = log(self.velocity.length_squared()+1)*-self.velocity.normalized()/5
-		node.global_rotation = self.base_rotation
-		node.global_rotation.x += clamp(self.additional_rotation.y, -MAX_ADDITIONAL_ROTATION, MAX_ADDITIONAL_ROTATION)
-		#node.global_rotation.z += self.additional_rotation.z
-		node.global_rotation.y += clamp(self.additional_rotation.x, -MAX_ADDITIONAL_ROTATION, MAX_ADDITIONAL_ROTATION)
+		if movement_kind == MOVEMENT_KIND.UFO:
+			# Rotate slightly based on velocity direction
+			self.additional_rotation = log(self.velocity.length_squared()+1)*-self.velocity.normalized()/5
+			node.global_rotation = self.base_rotation
+			node.global_rotation.x += clamp(self.additional_rotation.y, -MAX_ADDITIONAL_ROTATION, MAX_ADDITIONAL_ROTATION)
+			#node.global_rotation.z += self.additional_rotation.z
+			node.global_rotation.y += clamp(self.additional_rotation.x, -MAX_ADDITIONAL_ROTATION, MAX_ADDITIONAL_ROTATION)
 
 		#print(node.global_rotation)

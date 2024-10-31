@@ -11,8 +11,12 @@ var wild_cards:Array[int]
 var wild_count:int = 0
 var model_changed:bool = false
 var movement_component:StaticMovementComponent = StaticMovementComponent.new(self, StaticMovementComponent.MOVEMENT_KIND.SIMPLE)
+var DebugCube = preload("res://entities/debug/debug_cube.tscn")
 
 func _init(game_wild_cards:Array[int]) -> void:
+	# Debug Cube
+	#var d_cube = DebugCube.instantiate()
+	#add_child(d_cube)
 	wild_cards = game_wild_cards
 	cards = []
 
@@ -36,19 +40,15 @@ func add_cards(new_cards:Array[Card]) -> bool:
 	# There cannot be more wilds than naturals in the canasta
 	var new_wild_count:int = wild_count
 	var new_len:int = len(cards)
-	var new_card_num:int
 	for card in new_cards:
 		if card.card_model.card_num in wild_cards:
 			new_wild_count += 1
-			new_len += 1
 		elif card_num == -1:
-			new_card_num = card.card_model.get_value()
-			new_len += 1
+			card_num = card.card_model.get_value()
 		elif card.card_model.get_value() != card_num:
 			printerr("Card Value: ",card.card_model.get_value(),"Does not match canasta of value:",card_num)
 			return false
-		else:
-			new_len += 1
+		new_len += 1
 	if new_wild_count > new_len - new_wild_count:
 		printerr("Cannot add cards, there would be more wilds than naturals")
 		return false
@@ -56,9 +56,10 @@ func add_cards(new_cards:Array[Card]) -> bool:
 		model_changed = true
 		wild_count = new_wild_count
 		for card in new_cards:
+			cards.append(card)
 			card.reparent(self)
-			card.set_on_hover(func (): pass)
-			card.set_on_leave(func (): pass)
+			card.set_on_hover(func (point): pass)
+			card.set_on_leave(func (point): pass)
 		return true
 
 func _process(delta: float) -> void:
@@ -84,9 +85,9 @@ func _process(delta: float) -> void:
 							cards.append(topcard)
 							break
 			for card in cards:
-				card.movement_component.set_destination(CARD_SPEED, Vector3(0,0, y_offset))
+				card.movement_component.set_destination(CARD_SPEED, to_global(Vector3(0,0, y_offset)))
 				y_offset += CARD_DISTNACE/100
 		else:
 			for card in cards:
-				card.movement_component.set_destination(CARD_SPEED,Vector3(0,y_offset,y_offset/100))
+				card.movement_component.set_destination(CARD_SPEED,to_global(Vector3(0,y_offset,y_offset/100)))
 				y_offset += CARD_DISTNACE

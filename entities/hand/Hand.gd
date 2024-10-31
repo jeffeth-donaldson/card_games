@@ -61,9 +61,21 @@ func process_new_card(card:Card):
 	#add_child(card)
 	if is_player:
 		card.hoverable_component.on_leave = func(point:Vector3): _unfocus_card()
-	_update_hand_order()
+	model_changed = true
 	if len(cards_to_add) < 1:
 		card_speed = MIN_CARD_SPEED
+
+func remove_card(card:Card) -> bool:
+	var index:int = cards.find(card)
+	if index < 0:
+		return false
+	elif index == focused_card:
+		focused_card = -1
+	cards.remove_at(index)
+	model_changed = true
+	return true
+
+
 
 func done_moving() -> bool:
 	return cards.all(func(n:Card): return not n.movement_component.in_motion)
@@ -72,11 +84,11 @@ func _set_focused_card(card: int):
 	if focused_card != card and len(cards_to_add) < 1:
 		focused_card = card
 		print("focused card:", card)
-		_update_hand_order()
+		model_changed = true
 func _unfocus_card():
 	print("unfocused")
 	focused_card = -1
-	_update_hand_order()
+	model_changed = true
 func _update_hand_order():
 	if len(cards) > 0:
 		cards.sort_custom(sort_function)
@@ -134,6 +146,10 @@ func _update_hand_order():
 		#print("------------------")
 
 func _physics_process(delta):
+	if model_changed:
+		_update_hand_order()
+		model_changed = false
+
 	if draw_card_cooldown >= 0:
 		draw_card_cooldown -= delta
 

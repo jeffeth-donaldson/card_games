@@ -4,6 +4,8 @@ const DEAL_CARDS_COOLDOWN:float = 0.5
 
 const SCORES_TO_GO_DOWN:=[50,90,120,150]
 
+const WILD_CARDS:Array[int]=[2,13]
+
 enum GameState {
 	NEW_HAND,
 	DEAL,
@@ -30,6 +32,7 @@ var current_game_state:GameState = GameState.NEW_HAND
 # Variables for GameState.ROUND
 var round:int=0
 var current_player:int=0
+var needs_setup:bool=true
 
 
 func hand_and_foot_sort(a:Card, b:Card):
@@ -121,11 +124,23 @@ func _process(delta: float) -> void:
 			if current_player >= len(players):
 				current_player = 0
 			if players[current_player].player:
-				players[current_player].hand.onClick = func(card:Card):
-					# POC of clicking on a card. TODO: create staging area for cards
-					print(HandAndFootUtil.get_card_score(card.card_model))
-				# TODO: handle local player
-				pass
+				if needs_setup:
+					var temp_zone = CanastaArea.new()
+					add_child(temp_zone)
+					temp_zone.position.y += 1
+					players[current_player].hand.onClick = func(card:Card):
+						var already_added = true
+						var canasta = temp_zone.get_canasta(card.card_model.get_value())
+						if canasta == null:
+							canasta = Canasta.new(WILD_CARDS)
+							already_added = false
+						if not canasta.add_cards([card]):
+							print("Cannot add card to canasta")
+						if not already_added and canasta.card_num > -1:
+							temp_zone.add_canasta(canasta)
+						players[current_player].hand.remove_card(card)
+					needs_setup = false
+
 			elif players[current_player].human:
 				# TODO: handle multiplayer player
 				pass

@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckne8yo5pxpvi"]
+
+[ext_resource type="Script" path="res://uis/hand_and_foot/go_down_ui.gd" id="1_kswge"]
+
+[node name="GoDownUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kswge")
+
+[node name="GoDownButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 315.0
+offset_top = 62.0
+offset_right = 394.0
+offset_bottom = 93.0
+text = "Go Down"
+
+[node name="CancelButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 734.0
+offset_top = 58.0
+offset_right = 794.0
+offset_bottom = 89.0
+text = "Cancel"
+
+[node name="Points" type="Label" parent="."]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 63.0
+offset_right = 652.0
+offset_bottom = 86.0
+text = "X/X Points to go  down"

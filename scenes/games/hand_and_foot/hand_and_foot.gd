@@ -6,6 +6,8 @@ const SCORES_TO_GO_DOWN:=[50,90,120,150]
 
 const WILD_CARDS:Array[int]=[2,13]
 
+var GoDownUI = preload("res://uis/hand_and_foot/go_down_ui.tscn")
+
 enum GameState {
 	NEW_HAND,
 	DEAL,
@@ -33,7 +35,7 @@ var current_game_state:GameState = GameState.NEW_HAND
 var round:int=0
 var current_player:int=0
 var needs_setup:bool=true
-
+var temp_point_count:int=0
 
 func hand_and_foot_sort(a:Card, b:Card):
 	# Sorts cards according to hand and foot rules
@@ -125,6 +127,10 @@ func _process(delta: float) -> void:
 				current_player = 0
 			if players[current_player].player:
 				if needs_setup:
+					temp_point_count = 0
+					var ui = GoDownUI.instantiate()
+					add_child(ui)
+					ui.setup(SCORES_TO_GO_DOWN[round])
 					var temp_zone = CanastaArea.new()
 					add_child(temp_zone)
 					temp_zone.position.y += 1
@@ -136,9 +142,12 @@ func _process(delta: float) -> void:
 							already_added = false
 						if not canasta.add_cards([card]):
 							print("Cannot add card to canasta")
+						else:
+							players[current_player].hand.remove_card(card)
+							temp_point_count += HandAndFootUtil.get_card_score(card.card_model)
+							ui.edit_points(temp_point_count)
 						if not already_added and canasta.card_num > -1:
 							temp_zone.add_canasta(canasta)
-						players[current_player].hand.remove_card(card)
 					needs_setup = false
 
 			elif players[current_player].human:

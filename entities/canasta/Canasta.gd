@@ -86,8 +86,8 @@ func _process(delta: float) -> void:
 							break
 			for card in cards:
 				card.movement_component.set_destination(CARD_SPEED, to_global(Vector3(0,0, y_offset)))
-				y_offset += CARD_DISTNACE/100
+				y_offset += CARD_DISTNACE/10
 		else:
 			for card in cards:
-				card.movement_component.set_destination(CARD_SPEED,to_global(Vector3(0,y_offset,y_offset/100)))
+				card.movement_component.set_destination(CARD_SPEED,to_global(Vector3(0,y_offset/10,y_offset)))
 				y_offset += CARD_DISTNACE

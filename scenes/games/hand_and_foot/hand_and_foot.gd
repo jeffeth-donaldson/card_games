@@ -4,7 +4,7 @@ const DEAL_CARDS_COOLDOWN:float = 0.5
 
 const SCORES_TO_GO_DOWN:=[50,90,120,150]
 
-const WILD_CARDS:Array[int]=[2,13]
+const WILD_CARDS:Array[int]=[2,14]
 
 var GoDownUI = preload("res://uis/hand_and_foot/go_down_ui.tscn")
 
@@ -131,11 +131,15 @@ func _process(delta: float) -> void:
 					var ui = GoDownUI.instantiate()
 					add_child(ui)
 					ui.setup(SCORES_TO_GO_DOWN[round])
-					var temp_zone = CanastaArea.new()
+					var temp_zone = CanastaArea.new(WILD_CARDS)
 					add_child(temp_zone)
 					temp_zone.position.y += 1
 					players[current_player].hand.onClick = func(card:Card):
 						var already_added = true
+						var value = card.card_model.get_value()
+						if value in WILD_CARDS:
+							print("TODO: allow user to select destination canasta")
+							return
 						var canasta = temp_zone.get_canasta(card.card_model.get_value())
 						if canasta == null:
 							canasta = Canasta.new(WILD_CARDS)

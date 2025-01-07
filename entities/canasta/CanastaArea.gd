@@ -7,13 +7,16 @@ const CANASTA_SPEED:float = 0.5
 
 var canastas:Array[Canasta] = []
 var model_changed:bool = false
+var wild_cards:Array[int] = []
 
 # Debug Cube
 #var DebugCube = preload("res://entities/debug/debug_cube.tscn")
 #
-#func _init() -> void:
+func _init(new_wild_cards:Array[int]) -> void:
+	wild_cards = new_wild_cards
 	#var d_cube = DebugCube.instantiate()
 	#add_child(d_cube)
+
 
 func canasta_sort(a:Canasta, b:Canasta) -> bool:
 	if a.card_num == b.card_num:
@@ -22,6 +25,9 @@ func canasta_sort(a:Canasta, b:Canasta) -> bool:
 		return a.card_num < b.card_num
 
 func get_canasta(card_value:int) -> Canasta:
+	if card_value in wild_cards:
+		print("cannot have wild card canasta")
+		return null
 	for canasta in canastas:
 		if canasta.card_num == card_value:
 			return canasta
